@@ -5,15 +5,17 @@ Why does this even exist when there's a certificate management built into the AD
 
 #### The cons of doing certificate management the Asustor way: ####
 
-1. The ceritificate manager built into ADM is lacking and it's behaviour is dependent on this Asustor supplied binary: `/usr/builtin/bin/certificate`. For automated certificate renewal, this is setup in a crontab job that looks like this: `0 0 * * * TAG=CERTIFICATE /usr/builtin/bin/certificate update-cert` so that this is run continually every minute.
+1. The behaviour of the ceritificate manager built into ADM is dependent on this Asustor supplied binary: `/usr/builtin/bin/certificate`. For automated certificate renewal, ADM sets up a crontab job that looks like this: `0 0 * * * TAG=CERTIFICATE /usr/builtin/bin/certificate update-cert` so that this is run continually every minute.
 
-   What does this do? It's supposed to renew certificates.
+   What does this do? It renews certificates when all of the requirements for successful certificate renewal are correctly aligned.
    
-   What happens when it fails? Who knows, not even Asustor support were able to describe what happens when certificate renewal fails other than to say _"logging of SSL certificate renewal errors is not enabled"_. This appears to be an undocumented Asustor binary that has unknown behaviour other than it being known that nothing is logged anywhere when certificate renewal fails.
+   What happens when certificates fail to renew? It fails silently. Asustor support were unable to describe what happens when certificate renewal fails other than to say _"logging of SSL certificate renewal errors is not enabled"_. `/usr/builtin/bin/certificate` appears to be an undocumented Asustor binary that has unknown behaviour other than it being confirmed by Asustor that **nothing is logged anywhere** when certificate renewal fails.
+   
+2. Successful certificate renewal via the `/usr/builtin/bin/certificate` binary is dependent on a web service listening on the NAS on port 80. Yes **port 80 needs to be permanently open to the NAS** and a web server needs to be running on the NAS **listening on port 80 at all times** (typically apache on an Asustor NAS) in order for certificate renewal to succeed. This is a security risk.
 
-2. Successful certificate renewal via the `/usr/builtin/bin/certificate` binary is dependent on a web service listening on the NAS on port 80. Yes port 80 needs to be permanently open to the NAS and a web server needs to be running on the NAS listening on port 80 at all times (typically apache on an Asustor NAS) in order for certificate renewal to succeed.
+   What other requirements are there for successful certificate renewal to occur via `/usr/builtin/bin/certificate`? Other than port 80 needing to be being permanently open, the requirements are unknown because this binary is undocumented and poorly supported.
 
-3. There's lack of flexiblity when relying on `/usr/builtin/bin/certificate` to perform certificate renewal. Since this binary is undocumented, there's no known way to perform any additional required actions when certificates fail to renew or do actually renew successfully.
+3. There's lack of flexiblity when relying on `/usr/builtin/bin/certificate` to perform certificate renewal. Since this binary is undocumented, there's **no known way to perform any additional required actions when certificates fail to renew or do renew successfully**.
 
 #### The pros of doing certificate management the [certbot](https://certbot.eff.org/docs/) way: ####
 
@@ -31,7 +33,7 @@ Why does this even exist when there's a certificate management built into the AD
 
 On my AS-202TE, certbot is located here after installation: `/usr/local/AppCentral/python/bin/certbot`.
 
-#### Shell scripts included in this project ####
+#### Shell scripts included in this github repo ####
 1. https://github.com/jjssoftware/asustor-certbot/blob/master/nas-certbot-renewal.sh
 
    This is a certbot [Let's Encrypt](https://letsencrypt.org/) certificate renewal script. It simply calls certbot to perform certificate renewal for any certificates previously created by certbot. This script can be crontab scheduled. Further details are in the script.
