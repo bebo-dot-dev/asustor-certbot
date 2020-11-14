@@ -32,6 +32,8 @@ Why does this even exist when there's a certificate management built into the AD
 2. once you have python installed check you have pip installed i.e. `pip --version`.
 3. install certbot with pip i.e. `pip install cryptography` && `pip install certbot`.
 
+Note that depending on your Asustor NAS box model and the available tools installed on the NAS box, Certbot installation might not be straightforward. See further details [here](https://github.com/jjssoftware/asustor-certbot/blob/master/CertbotInstallation.md).
+
 On my AS-202TE, certbot is located here after installation: `/usr/local/AppCentral/python/bin/certbot`.
 
 #### Shell scripts included in this github repo ####
