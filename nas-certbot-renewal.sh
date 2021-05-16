@@ -8,7 +8,7 @@
 #   * certbot, installable via pip i.e. pip install cryptography && pip install certbot
 #   * At least one Let's Encrypt certificate present in the --config-dir path created
 #     by a prior call to certbot i.e.
-#     /usr/local/AppCentral/python/bin/certbot certonly --standalone -d mydomain.com --config-dir /volume0/usr/builtin/etc/letsencrypt
+#     certbot certonly --standalone --http-01-port 51080 -d mydomain.com --config-dir /volume0/usr/builtin/etc/letsencrypt
 #
 # This shell script simply calls certbot for Let's Encrypt certificate renewal. This script can be crontab scheduled for automated renewal.
 # Certificate renewal progress / success / failure is logged to /var/log/letsencrypt/letsencrypt.log by default
