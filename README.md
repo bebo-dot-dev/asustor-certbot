@@ -1,6 +1,8 @@
 # asustor-certbot
 Automated [Let's Encrypt](https://letsencrypt.org/) certificate renewal via [certbot](https://certbot.eff.org/docs/) on an Asustor NAS box
 
+**Note:** this project no longer recommends attempting to use certbot on an Asustor NAS due to the increasing difficulties with [certbot installation on an Asustor NAS](https://github.com/bebo-dot-dev/asustor-certbot/blob/master/CertbotInstallation.md). Alternative options include the Asustor App Central installable "Let's Encrypt ACME Client" app (a wrapper around [https://github.com/acmesh-official/acme.sh](https://github.com/acmesh-official/acme.sh)) and other options that are listed [here](https://letsencrypt.org/docs/client-options/) on the letsencrypt website.
+
 Why does this even exist when there's a certificate management built into the ADM (Asustor Data Master) linux o/s? Here are a few reasons.
 
 #### The cons of doing certificate management the Asustor way: ####
